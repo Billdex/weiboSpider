@@ -92,6 +92,37 @@ def deepSearchList(list, uid, floor, num):
         return list
 
 
+# 画出关注人的人物关系图
+def drawRelationGraph(dataList):
+    G = nx.DiGraph()
+    node_size_list = dict()
+    node_color_list = dict()
+    for person in dataList:
+        G.add_node(dataList[person]['userInfo']['name'])
+        node_size_list[dataList[person]['userInfo']['name']] = 0
+        node_color_list[dataList[person]['userInfo']['name']] = 'lightblue' if dataList[person]['userInfo'][
+                                                                               'gender'] == '男' else 'pink'
+    for person in dataList:
+        if 'interestList' in dataList[person].keys():
+            for interest in dataList[person]['interestList']:
+                print('{} -> {}'.format(person, interest['id']))
+                G.add_edge(dataList[person]['userInfo']['name'],
+                           dataList[str(interest['id'])]['userInfo']['name'])
+                node_size_list[dataList[str(interest['id'])]['userInfo']['name']] += 1
+    nx.draw(G,
+            pos=nx.spring_layout(G),
+            with_labels=True,
+            node_size=[i * i * 200 + 100 for i in list(node_size_list.values())],
+            node_color=[i for i in list(node_color_list.values())],
+            width=0.2,
+            font_size=8)
+    plt.rcParams['font.sans-serif'] = ['YouYuan']
+    plt.rcParams['axes.unicode_minus'] = False
+    plt.show()
+
+
+
+
 if __name__ == '__main__':
     # 头顶戴朵花
     # uid = '1913880370'
@@ -105,38 +136,14 @@ if __name__ == '__main__':
     uid = '1972174013'
 
     try:
-        with open('./data1.json', 'r', encoding='utf-8') as f:
+        with open('./interestList.json', 'r', encoding='utf-8') as f:
             data = json.load(f)
     except:
         data = dict()
     data = deepSearchList(data, uid, 3, 5)
-    with open('./data1.json', 'w', encoding='utf-8') as f:
+    with open('./interestList.json', 'w', encoding='utf-8') as f:
         f.write(json.dumps(data, ensure_ascii=False))
     print(data)
     print(len(data))
+    drawRelationGraph(data)
 
-    G = nx.DiGraph()
-    node_size_list = dict()
-    node_color_list = dict()
-    for person in data:
-        G.add_node(data[person]['userInfo']['name'])
-        node_size_list[data[person]['userInfo']['name']] = 0
-        node_color_list[data[person]['userInfo']['name']] = 'lightblue' if data[person]['userInfo'][
-                                                                               'gender'] == '男' else 'pink'
-    for person in data:
-        if 'interestList' in data[person].keys():
-            for interest in data[person]['interestList']:
-                print('{} -> {}'.format(person, interest['id']))
-                G.add_edge(data[person]['userInfo']['name'],
-                           data[str(interest['id'])]['userInfo']['name'])
-                node_size_list[data[str(interest['id'])]['userInfo']['name']] += 1
-    nx.draw(G,
-            pos=nx.spring_layout(G),
-            with_labels=True,
-            node_size=[i * i * 200 + 100 for i in list(node_size_list.values())],
-            node_color=[i for i in list(node_color_list.values())],
-            width=0.2,
-            font_size=8)
-    plt.rcParams['font.sans-serif'] = ['YouYuan']
-    plt.rcParams['axes.unicode_minus'] = False
-    plt.show()
