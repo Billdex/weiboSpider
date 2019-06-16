@@ -1,6 +1,5 @@
 import requests
 import json
-import networkx as nx
 import matplotlib.pyplot as plt
 
 from spiderUtils import *
@@ -31,7 +30,7 @@ def getFansList(uid, num):
         page += 1
 
 
-if '__name__' == '__name__':
+if __name__ == '__main__':
     # 是柠檬呀柠檬呀
     # uid = '1972174013'
     # 蔡徐坤
@@ -68,25 +67,78 @@ if '__name__' == '__name__':
     # plt.rcParams['axes.unicode_minus'] = False
     # plt.show()
 
-    # 假粉比例
-    fans_fake = 0
-    fans_real = 0
-    print(data)
-    for fansInfo in data['fans']:
-        if fansInfo['statuses_count'] <= 5 and fansInfo['fans_count'] <= 5:
-            fans_fake += 1
-        else:
-            fans_real += 1
+    # 粉丝的个人粉丝情况
+    # name_list = ['0-15', '15-50', '50-100', '100-200', '>200']
+    # num_list = [0, 0, 0, 0, 0]
+    # for fansInfo in data['fans']:
+    #     if fansInfo['fans_count'] < 15:
+    #         num_list[0] += 1
+    #     elif fansInfo['fans_count'] < 50:
+    #         num_list[1] += 1
+    #     elif fansInfo['fans_count'] < 100:
+    #         num_list[2] += 1
+    #     elif fansInfo['fans_count'] < 200:
+    #         num_list[3] += 1
+    #     else:
+    #         num_list[4] += 1
+    # plt.bar(range(len(num_list)), num_list, color='rgb', tick_label=name_list)
+    # plt.savefig('./粉丝的个人粉丝数.png')
+    # plt.show()
 
-    name_list = ['假粉丝', '真粉丝']
-    num_list = [fans_fake, fans_real]
-    colors = ['gray', 'red']
-    # 圆形
-    plt.figure(1, figsize=(6, 6))
-    # 决定分割部分，及其与其它部分之间的间距
-    expl = [0, 0.1]
-    plt.pie(x=num_list, explode=expl, labels=name_list, autopct='%3.1f %%', colors=colors, shadow=True)
-    plt.rcParams['font.sans-serif'] = ['YouYuan']
-    plt.rcParams['axes.unicode_minus'] = False
+    # 粉丝的关注情况
+    # name_list = ['0-15', '15-50', '50-100', '100-200', '>200']
+    # num_list = [0, 0, 0, 0, 0]
+    # for fansInfo in data['fans']:
+    #     if fansInfo['follow_count'] < 15:
+    #         num_list[0] += 1
+    #     elif fansInfo['follow_count'] < 50:
+    #         num_list[1] += 1
+    #     elif fansInfo['follow_count'] < 100:
+    #         num_list[2] += 1
+    #     elif fansInfo['follow_count'] < 200:
+    #         num_list[3] += 1
+    #     else:
+    #         num_list[4] += 1
+    # plt.bar(range(len(num_list)), num_list, color='rgb', tick_label=name_list)
+    # plt.savefig('./粉丝关注数情况.png')
+    # plt.show()
+
+    # 粉丝的发微博的情况
+    name_list = ['0-15', '15-40', '40-80', '80-150', '>150']
+    num_list = [0, 0, 0, 0, 0]
+    for fansInfo in data['fans']:
+        if fansInfo['follow_count'] < 15:
+            num_list[0] += 1
+        elif fansInfo['follow_count'] < 40:
+            num_list[1] += 1
+        elif fansInfo['follow_count'] < 80:
+            num_list[2] += 1
+        elif fansInfo['follow_count'] < 150:
+            num_list[3] += 1
+        else:
+            num_list[4] += 1
+    plt.bar(range(len(num_list)), num_list, color='rgb', tick_label=name_list)
+    plt.savefig('./粉丝发微博数的情况.png')
     plt.show()
 
+    # 假粉比例
+    # fans_fake = 0
+    # fans_real = 0
+    # print(data)
+    # for fansInfo in data['fans']:
+    #     if fansInfo['statuses_count'] <= 15 and fansInfo['fans_count'] <= 10:
+    #         fans_fake += 1
+    #     else:
+    #         fans_real += 1
+    #
+    # name_list = ['假粉丝', '真粉丝']
+    # num_list = [fans_fake, fans_real]
+    # colors = ['gray', 'red']
+    # # 圆形
+    # plt.figure(1, figsize=(6, 6))
+    # # 决定分割部分，及其与其它部分之间的间距
+    # expl = [0, 0.1]
+    # plt.pie(x=num_list, explode=expl, labels=name_list, autopct='%3.1f %%', colors=colors, shadow=True)
+    # plt.rcParams['font.sans-serif'] = ['YouYuan']
+    # plt.rcParams['axes.unicode_minus'] = False
+    # plt.show()
