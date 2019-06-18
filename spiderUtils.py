@@ -35,3 +35,16 @@ def getUserInfo(uid):
     # with open('./UserInfo.json', 'w', encoding='utf-8') as f:
     #     f.write(json.dumps(UserInfo, ensure_ascii=False))
     return UserInfo
+
+
+# 输出用户基本信息，用于在爬取数据或其他时候方便的输出查看用户信息
+def printUserInfo(UserInfo):
+    print('id:{}\t微博名:{}\t性别:{}\t发微博数:{}\t粉丝数:{}\t关注数:{}'
+          .format(UserInfo['id'],
+                    UserInfo['name'],
+                    UserInfo['gender'],
+                    UserInfo['statuses_count'],
+                    UserInfo['fans_count'],
+                    UserInfo['follow_count']
+                 )
+          )
